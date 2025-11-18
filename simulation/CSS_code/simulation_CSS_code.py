@@ -15,8 +15,8 @@ Rotated surface code simulation over proposed spin qubit architecture
 # Generates surface code circuit tasks using Stim's circuit generation.
 def generate_example_tasks(is_memory_x=False):
     etas = [0.5, 1, 10, 100,1000, 10000]
-    probabilities = [0.0017, 0.0018,0.00185, 0.0019,0.002]
-    distances = [5, 9]#, 13, 17]
+    probabilities = [0.0028,0.0033,0.0037,0.0042,.0047,.0052]
+    distances = [5, 9, 13, 17]
     for eta in etas:   
         for p in probabilities:
             for d in distances:

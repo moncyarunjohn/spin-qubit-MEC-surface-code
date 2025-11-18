@@ -127,6 +127,13 @@ def create_rotated_surface_code_CSS_architecture(params: CircuitGenParametersCSS
     for k, v in Z_Map_2N.items():
         Map_2N[k] += v
     
+    
+    if is_memory_H: 
+        data_qubits_x = data_qubits[::2]
+        data_qubits_z = data_qubits[1::2]
+    else:
+        data_qubits_x = data_qubits[1::2]
+        data_qubits_z = data_qubits[::2]
 
 
     # backandforth = True
@@ -415,12 +422,19 @@ def create_rotated_surface_code_CSS_architecture(params: CircuitGenParametersCSS
 
     # Reset the data qubits
     head.append("TICK", []) 
-    head.append("R" + "ZX"[is_memory_x], data_qubits) # What exactly is a "ZX". There is no definition of it in the function (append_anti_basis_error) defined in the beginning of this script.
+    head.append("RX", data_qubits_x)
+    head.append("R", data_qubits_z)
+    # head.append("R" + "ZX"[is_memory_x], data_qubits) # What exactly is a "ZX". There is no definition of it in the function (append_anti_basis_error) defined in the beginning of this script.
     ### Why reset in ZX basis? Because we want to prepare the data qubits in the logical 0 or + state? 
     ### How do you reset in logical basis for a random code? This was discussed with Reza in the beginning. No clear answer yet.
+    ### In the other file for XZZX code, it seems that the alternate data qubits are reset in states 0 and states + respectively.
 
     if params.after_reset_flip_probability > 0:
-        append_anti_basis_error(head, data_qubits, params.after_reset_flip_probability, "ZX"[is_memory_x]) ## the function doesn't have a ZX specific action, so why?
+        append_anti_basis_error(head, data_qubits_x, params.after_reset_flip_probability, "X")
+        append_anti_basis_error(head, data_qubits_z, params.after_reset_flip_probability, "Z")
+
+    # if params.after_reset_flip_probability > 0:
+    #     append_anti_basis_error(head, data_qubits, params.after_reset_flip_probability, "ZX"[is_memory_x]) ## the function doesn't have a ZX specific action, so why?
     #### Pay attention here. What to do?
 
 
@@ -647,11 +661,24 @@ def create_rotated_surface_code_CSS_architecture(params: CircuitGenParametersCSS
                 [check_snake[m_index].real, check_snake[m_index].imag, 0.0] # Visualization in RSC
             )
 
-    # Measure the data qubits
+ #   # Measure the data qubits
+ #   if params.before_measure_flip_probability > 0:
+ #       append_anti_basis_error(tail, data_qubits, params.before_measure_flip_probability, "ZX"[is_memory_x])
+ #   tail.append("M" + "ZX"[is_memory_x], data_qubits)
+ #   ### Pay attention here. What to do?
+
+ #    Measure the data qubits. Similar to the reset, every other qubit is measured in the X basis and the rest in the Z basis.
     if params.before_measure_flip_probability > 0:
-        append_anti_basis_error(tail, data_qubits, params.before_measure_flip_probability, "ZX"[is_memory_x])
-    tail.append("M" + "ZX"[is_memory_x], data_qubits)
-    ### Pay attention here. What to do?
+        append_anti_basis_error(tail, data_qubits_x, params.before_measure_flip_probability, "X")
+        append_anti_basis_error(tail, data_qubits_z, params.before_measure_flip_probability, "Z")  
+ #   for q in data_qubits_z:
+ #       # this keeps the order of measuring the data qubits consistent with the order of the data qubits
+ #       tail.append("M" + "XZ"[q in data_qubits_z], [q])
+ #   for q in data_qubits_x:
+ #       # this keeps the order of measuring the data qubits consistent with the order of the data qubits
+ #       tail.append("M" + "XZ"[q in data_qubits_z], [q])
+    tail.append("MX",  data_qubits_x)
+    tail.append("M",  data_qubits_z)
     
     # Detectors
     for measure in chosen_basis_measure_index: ## Any need to sort this first? #sorted(chosen_basis_measure_coords, key=lambda c: (c.real, c.imag)):
