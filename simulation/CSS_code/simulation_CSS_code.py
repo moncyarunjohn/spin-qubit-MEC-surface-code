@@ -6,7 +6,7 @@ import numpy as np
 import sys
 import os
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '../../../spin-qubit-circuit-level-simulation'))
-from circuits.CSS_surface_code_3NArray_architecture import create_rotated_surface_code_CSS_architecture, CircuitGenParametersCSS
+from circuits.ThreeNArray_CSS_surface_code_architecture import create_rotated_surface_code_CSS_architecture, CircuitGenParametersCSS # type: ignore
  
 """
 Rotated surface code simulation over proposed spin qubit architecture 
