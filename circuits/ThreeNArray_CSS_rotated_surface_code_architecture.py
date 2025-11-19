@@ -6,7 +6,7 @@ import math
 from itertools import islice
 import sys
 sys.path.append('../spin_qubit_architecture_circuits')
-from circuits.ThreeNArray_surface_code_layout import generate_rotated_surface_code_circuit_layout
+from circuits.ThreeNArray_surface_code_layout import generate_surface_code_circuit_layout
 
 """
 Code for simulating a rotated CSS surface code over the spin qubit architecture using Arrays
@@ -112,7 +112,7 @@ def create_rotated_surface_code_CSS_architecture(params: CircuitGenParametersCSS
     # Z_Map,## Probably not needed. Can be combined with Z_Map and sent as Map.
     Z_Map_2N,
     Map_2N ## This can be substituted by the 'range (-d,d)'. DONE
-    ) = generate_rotated_surface_code_circuit_layout(params.distance, params.x_distance, params.z_distance)
+    ) = generate_surface_code_circuit_layout(params.distance, params.x_distance, params.z_distance)
 
     chosen_basis_observable = X_observable_index if is_memory_x else Z_observable_index
     chosen_basis_measure_index = x_measure_index if is_memory_x else z_measure_index

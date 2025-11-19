@@ -2,7 +2,7 @@ from typing import Set, List, Dict
 import math
 from collections import defaultdict
 
-def generate_rotated_surface_code_circuit_layout(distance: int = None,
+def generate_surface_code_circuit_layout(distance: int = None,
                                                  x_distance: int = None,
                                                  z_distance: int = None):
     """

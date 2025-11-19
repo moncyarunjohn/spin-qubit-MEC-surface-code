@@ -7,7 +7,7 @@ from collections import defaultdict
 from itertools import islice
 import sys
 sys.path.append('../spin_qubit_architecture_circuits')
-from circuits.ThreeNArray_surface_code_layout import generate_rotated_surface_code_circuit_layout # type: ignore
+from circuits.ThreeNArray_surface_code_layout import generate_surface_code_circuit_layout # type: ignore
 
 """
 Code for simulating a rotated CSS surface code over the spin qubit architecture using Arrays
@@ -24,7 +24,7 @@ def append_anti_basis_error(circuit: stim.Circuit, targets: List[int], p: float,
 
 
 @dataclass
-class CircuitGenParametersCSS():
+class CircuitGenParametersXZZX():
     """
     Parameters for generating a rotated CSS surface code circuit over the architecture.
     
@@ -85,7 +85,7 @@ class CircuitGenParametersCSS():
 
 
 
-def create_rotated_surface_code_CSS_architecture(params: CircuitGenParametersCSS,
+def create_XZZX_surface_code_architecture(params: CircuitGenParametersXZZX,
                                 is_memory_H: bool = False,
                                 *, 
                                 exclude_other_basis_detectors: bool = False,
@@ -113,7 +113,7 @@ def create_rotated_surface_code_CSS_architecture(params: CircuitGenParametersCSS
     # Z_Map,## Probably not needed. Can be combined with Z_Map and sent as Map.
     Z_Map_2N,
     Positions_2N ## This can be substituted by the 'range (-d,d)'. DONE
-    ) = generate_rotated_surface_code_circuit_layout(params.distance, params.x_distance, params.z_distance)
+    ) = generate_surface_code_circuit_layout(params.distance, params.x_distance, params.z_distance)
 
     chosen_basis_observable = Z_observable_index if is_memory_H else X_observable_index ### Done. But caution.This should be edited. But the x and z needed to be swapped according the other xzzx file?
     chosen_basis_measure_index = z_measure_index if is_memory_H else x_measure_index ### This too should be edited. Has been.
