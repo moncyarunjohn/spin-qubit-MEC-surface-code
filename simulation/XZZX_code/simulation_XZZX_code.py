@@ -5,7 +5,7 @@ import multiprocessing
 import numpy as np
 import sys
 import os
-sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '../../../spin-qubit-MEC-surface-code'))
+sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '../../../spin-qubit-circuit-level-simulation'))
 from circuits.ThreeNArray_XZZX_surface_code_architecture import create_XZZX_surface_code_architecture, CircuitGenParametersXZZX
  
 """
@@ -14,13 +14,13 @@ Rotated XZZX surface code simulation for the spin qubit architecture with 3N Arr
 
 # Generates surface code circuit tasks using Stim's circuit generation.
 def generate_example_tasks(is_memory_H=False):
-    etas = [100]#, 1, 10, 100, 1000, 10000]
-    probabilities = [0.0001,0.0005,0.001]
-    distances = [5]#,7,9,11,13]
+    etas = [1]#, 1, 10, 100, 1000, 10000]
+    probabilities = [0]#[0.0001,0.0005,0.001]
+    distances = [3]#,7,9,11,13]
     for eta in etas:   
         for p in probabilities:
             for d in distances:            
-                rounds = 3 * d     
+                rounds = 2#3 * d     
                 params = CircuitGenParametersXZZX(
                                                     rounds=rounds,
                                                     distance=d,
@@ -51,7 +51,7 @@ def main():
     # Collect the samples (takes a few minutes).
     samples = sinter.collect(
         num_workers=multiprocessing.cpu_count()-1,
-        max_shots=2_000_000_000,
+        max_shots=2_000_000,
         max_errors=2000,
         tasks=[task for task in generate_example_tasks(is_memory_H=False)] + [task for task in generate_example_tasks(is_memory_H=True)],
         decoders=["pymatching"],

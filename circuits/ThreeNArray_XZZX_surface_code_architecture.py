@@ -6,8 +6,8 @@ import math
 from collections import defaultdict
 from itertools import islice
 import sys
-sys.path.append('../spin_qubit_architecture_circuits')
-from circuits.ThreeNArray_surface_code_layout import generate_surface_code_circuit_layout # type: ignore
+sys.path.append('../spin-qubit-circuit-level-simulation')
+from circuits.ThreeNArray_surface_code_layout import generate_surface_code_circuit_layout
 
 """
 Code for simulating a rotated CSS surface code over the spin qubit architecture using Arrays
