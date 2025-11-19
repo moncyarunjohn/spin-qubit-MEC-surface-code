@@ -6,7 +6,7 @@ import numpy as np
 import sys
 import os
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '../../../spin-qubit-circuit-level-simulation'))
-from circuits.ThreeNArray_CSS_surface_code_architecture import create_rotated_surface_code_CSS_architecture, CircuitGenParametersCSS # type: ignore
+from circuits.ThreeNArray_CSS_rotated_surface_code_architecture import create_rotated_surface_code_CSS_architecture, CircuitGenParametersCSS # type: ignore
  
 """
 Rotated surface code simulation over proposed spin qubit architecture 
@@ -14,9 +14,9 @@ Rotated surface code simulation over proposed spin qubit architecture
 
 # Generates surface code circuit tasks using Stim's circuit generation.
 def generate_example_tasks(is_memory_x=False):
-    etas = [0.5, 1, 10, 100,1000, 10000]
-    probabilities = [0.0028,0.0033,0.0037,0.0042,.0047,.0052]
-    distances = [5, 9, 13, 17]
+    etas = [1]#[0.5, 1, 10, 100,1000, 10000]
+    probabilities = [0]#[0.0028,0.0033,0.0037,0.0042,.0047,.0052]
+    distances = [5]#, 9, 13, 17]
     for eta in etas:   
         for p in probabilities:
             for d in distances:
